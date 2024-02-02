@@ -16,6 +16,9 @@ export default function Nav(params){
           <UserButton />
           <Link href="/">Home</Link>
           <Link href="/pages/account_page">Account</Link>
+          <Link href="/pages/all_posts">Show Posts</Link>
+          <Link href="/pages/create_post">Create Post</Link>
+
           {/* <Link href="/posts/addpost">Add a Tip</Link>
           <Link href="/posts/categories">List Categories</Link> */}
         </nav>
