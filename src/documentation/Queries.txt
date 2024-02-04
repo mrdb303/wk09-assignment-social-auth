@@ -1,0 +1,75 @@
+
+
+CREATE Queries
+==============
+
+CREATE TABLE IF NOT EXISTS sn_profiles (
+    profile_id SERIAL PRIMARY KEY,
+    clerk_user_id VARCHAR(64) NOT NULL,
+    username VARCHAR(40) NOT NULL,
+    location VARCHAR(70) NOT NULL,
+    bio_field VARCHAR(100) NOT NULL,
+    user_level INTEGER DEFAULT 1,
+    signed_up timestamp[] DEFAULT array[now()]
+);
+
+
+
+CREATE TABLE IF NOT EXISTS sn_posts (
+    post_id SERIAL PRIMARY KEY,
+    post_title VARCHAR(60) NOT NULL,
+    post_content VARCHAR(400) NOT NULL,
+    post_profile_id INTEGER NOT NULL,
+    post_clerk_id VARCHAR(64) NOT NULL,
+    post_date timestamp[] NOT NULL DEFAULT array[now()],
+    FOREIGN KEY (post_profile_id) REFERENCES sn_profiles(profile_id) 
+);
+
+
+
+
+CREATE TABLE IF NOT EXISTS sn_postlikes (
+   postlike_id SERIAL PRIMARY KEY,
+   postlike_profile_id INTEGER NOT NULL,
+   postlike_clerk_id VARCHAR(64) NOT NULL,
+   post_id INTEGER NOT NULL,
+   FOREIGN KEY (postlike_profile_id) REFERENCES sn_profiles(profile_id) 
+);
+
+
+
+
+INSERT Queries (for test data)
+==============================
+
+
+INSERT INTO sn_profiles (clerk_user_id, username, bio_field, location, user_level)
+VALUES 
+('ABC123', 'pugh_twin1', 'Trumpton fireman', 'Trumpton', 1),
+('ACB98A', 'pugh_twin2', 'Fireman', 'Trumpton', 1),
+('CBA432FZ', 'barney_mcgrew', 'Firestarter, twisted firestarter', 'Trumpton', 1),
+('ZA12RTY', 'cuthbertthedude', 'Flame engineer', 'Trumpton', 1),
+('AFYTG564', 'dibble55', 'Fire Technician', 'Trumpton', 1),
+('XGTHN432', 'grub', 'Extreme heat defuser', 'Trumpton', 1);
+
+
+
+INSERT INTO sn_posts (post_clerk_id, post_title, post_content, post_profile_id)
+VALUES
+('XGTHN432', 'Hot', 'Its gettin hot!', 1),
+('AFYTG564','My cottage', 'The roof is on fire!', 2),
+('ZA12RTY','Bucks Fizz', 'If you cant stand the heat', 3),
+('CBA432FZ','Suncream' , 'Burn baby burn', 4),
+('ACB98A','Climbin higher', 'The cat is in the tree', 5),
+('ABC123', 'Gotta reach the top', 'Does anybody want to buy a ladder?', 6);
+
+
+INSERT INTO sn_postlikes (postlike_profile_id, postlike_clerk_id, post_id) VALUES
+(3, 'CBA432FZ', 1),
+(5, 'AFYTG564', 2)
+
+
+
+
+
+
