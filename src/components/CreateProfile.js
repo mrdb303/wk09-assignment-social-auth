@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 export default function CreateProfile() {
   const { userId } = auth();
-  const { email_address } = auth();
+  //const { email_address } = auth();
 
   async function addNewProfile(formData) {
     "use server";
@@ -22,16 +22,21 @@ export default function CreateProfile() {
     <div>
       <h2>Create Profile</h2>
       <form action={addNewProfile}>
+        <label>Your Chosen Username: </label>
         <input name="username" 
           placeholder="Username"
         />
+        <label>Your Location: </label>
         <input name="location" 
           placeholder="location"
         />
 
+        <label>Your Bio: </label>
         <textarea name="bio" 
-          placeholder="Bio">
-        </textarea>
+          placeholder="Bio"
+          cols="63"
+          rows="3">
+        </textarea><br/>
         <button>Submit</button>
       </form>
     </div>

@@ -1,10 +1,15 @@
 import Link from "next/link";
-import { UserButton, SignInButton, SignOutButton} from "@clerk/nextjs";
-export default function Nav(params){
+import { sql } from "@vercel/postgres";
+import { UserButton, SignInButton, SignOutButton, auth} from "@clerk/nextjs";
+
+export default async function Nav(){
 
   //console.log(params.loggedIn);
+  const { userId } = auth();
 
-  
+  // Menu needs a check to see if you have a profile!!!!!!
+  const profileInfo = await sql`SELECT * FROM sn_profiles WHERE clerk_user_id = ${userId}`;
+  const profileId = profileInfo.rows[0]['profile_id'];
 
   return (
     <>
@@ -15,13 +20,21 @@ export default function Nav(params){
           <SignOutButton /> */}
           <UserButton />
           <Link href="/">Home</Link>
-          <Link href="/pages/account_page">Account</Link>
-          <Link href="/pages/all_posts">Show Posts</Link>
-          <Link href="/pages/create_post">Create Post</Link>
-
-          {/* <Link href="/posts/addpost">Add a Tip</Link>
-          <Link href="/posts/categories">List Categories</Link> */}
+          {profileInfo.rowCount !== 0 &&
+            <Link href="/pages/user/[userid]" as={`/pages/user/${profileId}`}>Timeline</Link>}
+          {profileInfo.rowCount !== 0 && 
+            <Link href="/pages/all_posts">Show All Posts</Link>}
         </nav>
     </>
   );
 }
+
+
+/*
+
+<Link href="/pages/user/profileId">Timeline</Link>
+
+<Link href="/posts/[id]" as={`/posts/${post.id}`}>
+  <a>{post.title}</a>
+</Link>
+*/
