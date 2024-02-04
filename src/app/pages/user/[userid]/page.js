@@ -112,10 +112,12 @@ return (
        <input name="profilenum"
         value={profileId}
         required
+        readOnly
         hidden
        />
        <input name="cid"
          value={clerkIdSearchedFor}
+         readOnly
          required
          hidden
        />
