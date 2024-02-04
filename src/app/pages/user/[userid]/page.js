@@ -1,8 +1,9 @@
 import { auth } from "@clerk/nextjs";
+import { notFound } from "next/navigation";
 import { sql } from "@vercel/postgres";
+import Link from "next/link";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { notFound } from "next/navigation";
 import UserPosts from "@/components/UserPosts"
 
 
@@ -11,12 +12,21 @@ export default async function TimeLine({params}){
 
   const { userId } = auth();
 
+  // Make the timestamp value easier to read:
+  function convDate(obj){
+    let ukTimeVal = obj[0].toUTCString();
+    return ukTimeVal.substr(5, 17);
+  }
+
 
   // CHECK params - find the id num if not zero
   // display instead of user timeline
 
   const checkForUser = await sql`SELECT * FROM sn_profiles WHERE sn_profiles.profile_id = ${params.userid}`;
   if(checkForUser.rowCount === 0) notFound();
+
+  
+  
   
   const clerkIdSearchedFor = checkForUser.rows[0]['clerk_user_id'];
 
@@ -30,6 +40,9 @@ export default async function TimeLine({params}){
   const username = userData.rows[0]['username'];
   const location = userData.rows[0]['location'];
   const bio = userData.rows[0]['bio_field'];
+
+  const userStatus = userData.rows[0]['user_level'];
+  
  
 
 
@@ -45,6 +58,17 @@ export default async function TimeLine({params}){
     revalidatePath("/pages/create_post");
     redirect("/pages/all_posts");
   }
+
+
+    const userPosts = await sql`SELECT sn_profiles.profile_id, sn_profiles.username, sn_profiles.user_level, sn_profiles.clerk_user_id,
+    sn_posts.post_date, sn_posts.post_id, sn_posts.post_title, sn_posts.post_content
+    FROM sn_profiles 
+    INNER JOIN sn_posts ON  sn_posts.post_clerk_id = sn_profiles.clerk_user_id
+    WHERE sn_profiles.clerk_user_id =  ${clerkIdSearchedFor}`;
+
+    console.log(userPosts);
+
+
 
 
 
@@ -80,10 +104,84 @@ return (
     </form>
     </> }
   </div>
-  
-  <UserPosts profileId={{profileId}}/>
+  <h3>Posts:</h3>
+  {userPosts.rows.map((post) => {
+    return (
+      <div key={post.post_id} className="post">
+        <p>{post.username} Posted on: {convDate(post.post_date)}</p><br/>
+        <p>Title: {post.post_title}</p><br/>
+        <p>{post.post_content}</p><br/>
+        <p>Fist Bumps: {post.bumpcount}</p><br/>
+        <Link href={`/pages/fistbump/${post.post_id}`}><button>Fist Bump</button></Link>
+        {/* Only enable delete button if user status = admin*/}
+        {userStatus === 2 && 
+          <button>Delete</button>
+        }
+        {/* Only enable edit button if the post belongs to the logged in user*/}
+        {post.post_profile_id === profileId && 
+          <button>Edit</button>
+        }
+      </div>
+    );
+  })}
   </>
 );
 
 
 }
+
+
+
+/*
+
+const userLevel = await sql`SELECT sn_profiles.profile_id, sn_profiles.user_level ,sn_profiles.clerk_user_id FROM sn_profiles 
+  WHERE sn_profiles.clerk_user_id = ${params.profileId}`;
+
+  const userStatus = userLevel.rows[0]['user_level'];
+  const profileId = userLevel.rows[0]['profile_id'];
+
+  let idSearchedFor = "";
+
+  if(profileId === undefined) {
+    idSearchedFor = userId;
+  } else {
+    idSearchedFor = userLevel.rows[0]['clerk_user_id'];;
+  }
+
+  console.log("Id searched for: ");
+  console.log(idSearchedFor);
+  //const idSearchedFor = params.clerkIdSearchedFor;
+  //console.log({idSearchedFor});
+
+  const posts = await sql`SELECT sn_posts.post_id, sn_posts.post_title, sn_posts.post_content,sn_posts.post_clerk_id ,sn_posts.post_date, 
+    COUNT(postlike_profile_id) AS bumpcount
+    FROM sn_posts
+    INNER JOIN sn_profiles ON sn_profiles.clerk_user_id = sn_posts.post_clerk_id
+    LEFT JOIN sn_postlikes ON sn_posts.post_clerk_id = sn_postlikes.postlike_clerk_id
+    WHERE sn_profiles.clerk_user_id = ${idSearchedFor}
+    GROUP BY(sn_posts.post_id)
+    ORDER BY sn_posts.post_id DESC`;
+// 
+  //console.log(posts);
+
+  return (
+    <>
+    <h3>Posts Owned: {posts.rowCount}</h3>
+    {posts.rows.map((post) => {
+          return (
+            <div key={post.post_id} className="post">
+              <p>{post.username} Posted on: {convDate(post.post_date)}</p><br/>
+              <p>Title: {post.post_title}</p><br/>
+              <p>{post.post_content}</p><br/>
+              <p>Fist Bumps: {post.bumpcount}</p><br/>
+              <Link href={`/pages/fistbump/${post.post_id}`}><button>Fist Bump</button></Link>
+              
+            </div>
+          );
+        })}
+    
+    </>
+  );
+
+
+*/

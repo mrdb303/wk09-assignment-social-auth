@@ -12,23 +12,37 @@ export default async function UserPosts({params}){
   }
 
   const { userId } = auth();
+  
+  
   //const clerkCode = params.profileId;
   //console.log({ userId});
-  //console.log(clerkCode);
+  //console.log({clerkCode});
 
-  const userLevel = await sql`SELECT sn_profiles.profile_id, sn_profiles.user_level FROM sn_profiles 
-  WHERE sn_profiles.clerk_user_id = ${userId}`;
+  const userLevel = await sql`SELECT sn_profiles.profile_id, sn_profiles.user_level ,sn_profiles.clerk_user_id FROM sn_profiles 
+  WHERE sn_profiles.clerk_user_id = ${params.profileId}`;
 
   const userStatus = userLevel.rows[0]['user_level'];
   const profileId = userLevel.rows[0]['profile_id'];
 
+  let idSearchedFor = "";
+
+  if(profileId === undefined) {
+    idSearchedFor = userId;
+  } else {
+    idSearchedFor = userLevel.rows[0]['clerk_user_id'];;
+  }
+
+  console.log("Id searched for: ");
+  console.log(idSearchedFor);
+  //const idSearchedFor = params.clerkIdSearchedFor;
+  //console.log({idSearchedFor});
 
   const posts = await sql`SELECT sn_posts.post_id, sn_posts.post_title, sn_posts.post_content,sn_posts.post_clerk_id ,sn_posts.post_date, 
     COUNT(postlike_profile_id) AS bumpcount
     FROM sn_posts
     INNER JOIN sn_profiles ON sn_profiles.clerk_user_id = sn_posts.post_clerk_id
     LEFT JOIN sn_postlikes ON sn_posts.post_clerk_id = sn_postlikes.postlike_clerk_id
-    WHERE sn_profiles.clerk_user_id = ${userId}
+    WHERE sn_profiles.clerk_user_id = ${idSearchedFor}
     GROUP BY(sn_posts.post_id)
     ORDER BY sn_posts.post_id DESC`;
 // 
