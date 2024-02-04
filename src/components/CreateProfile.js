@@ -24,11 +24,11 @@ export default function CreateProfile() {
       <form action={addNewProfile}>
         <label>Your Chosen Username: </label>
         <input name="username" 
-          placeholder="Username"
+          required
         />
         <label>Your Location: </label>
         <input name="location" 
-          placeholder="location"
+          required
         />
 
         <label>Your Bio: </label>
@@ -36,6 +36,7 @@ export default function CreateProfile() {
           placeholder="Bio"
           cols="63"
           rows="3">
+            required
         </textarea><br/>
         <button>Submit</button>
       </form>

@@ -37,7 +37,7 @@ export default async function TimeLine({params}){
   WHERE sn_profiles.clerk_user_id = ${clerkIdSearchedFor}`;
 
   const profileId = userData.rows[0]['profile_id'];
-  const username = userData.rows[0]['username'];
+  const username =  userData.rows[0]['username'];
   const location = userData.rows[0]['location'];
   const bio = userData.rows[0]['bio_field'];
 
@@ -48,15 +48,22 @@ export default async function TimeLine({params}){
 
   async function addNewPost(formData) {
     "use server";
+
     const postTitle = formData.get("posttitle");
     const postContent = formData.get("postcontent");
+    const profileNum = formData.get("profilenum");
+    const clId = formData.get("cid");
+    
     
 
+    //console.log("post_profile_id: " + profileId);
+    //console.log("post_clerk_id: " + userId);
+
     // Important - requirements state to use the Clerk id number, not post_profile_id
-    await sql`INSERT INTO sn_posts (post_profile_id, post_clerk_id, post_title, 
-      post_content) VALUES (${profileId}, ${userId}, ${postTitle}, ${postContent})`;
-    revalidatePath("/pages/all_posts");
-    redirect("/pages/all_posts");
+    const posting = await sql`INSERT INTO sn_posts (post_profile_id, post_clerk_id, post_title, 
+      post_content) VALUES (${profileNum}, ${clId}, ${postTitle}, ${postContent})`;
+    revalidatePath("/");
+    redirect("/");
   }
 
 
@@ -66,7 +73,7 @@ export default async function TimeLine({params}){
     INNER JOIN sn_posts ON  sn_posts.post_clerk_id = sn_profiles.clerk_user_id
     WHERE sn_profiles.clerk_user_id =  ${clerkIdSearchedFor}`;
 
-    console.log(userPosts);
+    //console.log(userPosts);
 
 
 
@@ -91,6 +98,7 @@ return (
       <label>Post Title:</label>
       <input name="posttitle" 
         placeholder="Post Title"
+        required
       />
 
       <label>Content:</label>
@@ -98,8 +106,19 @@ return (
         placeholder="Post Content"
         rows="3"
         cols="63"
+        required
       >
       </textarea><br/>
+       <input name="profilenum"
+        value={profileId}
+        required
+        hidden
+       />
+       <input name="cid"
+         value={clerkIdSearchedFor}
+         required
+         hidden
+       />
       <button>Submit</button>
     </form>
     </> }
