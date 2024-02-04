@@ -55,7 +55,7 @@ export default async function TimeLine({params}){
     // Important - requirements state to use the Clerk id number, not post_profile_id
     await sql`INSERT INTO sn_posts (post_profile_id, post_clerk_id, post_title, 
       post_content) VALUES (${profileId}, ${userId}, ${postTitle}, ${postContent})`;
-    revalidatePath("/pages/create_post");
+    revalidatePath("/pages/all_posts");
     redirect("/pages/all_posts");
   }
 
