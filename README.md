@@ -31,7 +31,7 @@ Build a basic social network site with authenticated users.
 
 - Use Clerk.com to set up user signup and login
 - Use the Clerk userId to associate posts with a user
-- Enable each user to create a profile associated with their userId, and a form to input their biography and location data, etc. with a URL similar to ```/user/[userId]```
+- Enable each user to create a profile associated with their userId, and a form to input their biography and location data, etc. with a URL similar to `/user/[userId]`
 - Enable users to create posts associated with the userId, and display those posts on the user's profile page
 - Show a 404 error if a user profile doesn't exist
 - Use at least 1 Radix UI Primitive or similar
@@ -68,6 +68,7 @@ To test this, there are seven users in the database for testing purposes. For ex
 Note that a post form is not shown on pages that belong to other users, so a post cannot be made for another user.
 
 It would have been easier to not have the option to make a new post from the timeline page, but it is keeping with the definition of a social media 'timeline'.
+<br>
 <br>
 
 #### Menu: Show All Posts
@@ -112,18 +113,27 @@ The component 'UserPosts.js' was added at an earlier stage, but is not currently
 #### Use Clerk.com to set up user signup and login
 Clerk was used for user authentication, login and signup
 
+<br>
+
 #### Use the Clerk userId to associate posts with a user
 The Clerk userId value was used to associate posts with the user
+
+<br>
 
 #### Enable each user to create a profile associated with their userId, and a form to input their biography and location data, etc. with a URL similar to ```/user/[userId]```
 This was carried out. The path used is `user/[userid]`
 
+<br>
+
 #### Enable users to create posts associated with the userId and display those posts on the user's profile page
 This functionality is technically enabled, although a last minute check showed that the buttons that link to a user's profile page currently contain the wrong file paths, so link to the wrong user. Access to the userid pages can still be reached if the values are typed in via the URL. Test data is present for user's numbered 1 to 7.
+
+<br>
 
 #### Show a 404 error if a user profile doesn't exist
 This is working.
 
+<br>
 <br/>
 
 ### Requirements not achieved
