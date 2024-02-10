@@ -69,7 +69,7 @@ To test this, there are seven users in the database for testing purposes. For ex
 
 Note that a post form is not shown on pages that belong to other users, so a post cannot be made for another user.
 
-It would have been easier to not have the option to make a new post from the timeline page, but it is keeping with the definition of a social media 'timeline' and the term timeline was used in the requirements. It was also a personal goal and have found this tricky to achieve in a previous assignment.
+It would have been easier to not have the option to make a new post from the timeline page, along with the list of messages and profile, but it is keeping with the definition of a social media 'timeline' and the term timeline was used in the requirements. It was also a personal goal and have found this tricky to achieve in a previous assignment.
 <br>
 <br>
 
