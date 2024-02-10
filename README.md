@@ -41,7 +41,7 @@ Build a basic social network site with authenticated users.
 ### Stretch goals
 
 - Enable users to visit other user profiles after seeing their posts on a global timeline
-- Enable users to follow other users by creating a follower and follwee relationship between two user profiles
+- Enable users to follow other users by creating a follower and followee relationship between two user profiles
 - Enable users to like other users' posts by creating a user_id and liked_post relationship in a junction table
 - A user's biography cannot be blank. If a user logs in but doesn't have a biography set, they should be asked to fill one in
 
@@ -60,6 +60,8 @@ The 'Timeline' page is a user's timeline which contains:
 - A form to add a new message post
 - A list of the posts the user has made, in descending date order
 
+<br>
+
 Note that the user's user number is displayed in the URL as per requirements.
 
 You can experiment with the user number within the URL to bring up their profile details and message posts.
@@ -67,7 +69,7 @@ To test this, there are seven users in the database for testing purposes. For ex
 
 Note that a post form is not shown on pages that belong to other users, so a post cannot be made for another user.
 
-It would have been easier to not have the option to make a new post from the timeline page, but it is keeping with the definition of a social media 'timeline'.
+It would have been easier to not have the option to make a new post from the timeline page, but it is keeping with the definition of a social media 'timeline' and the term timeline was used in the requirements. It was also a personal goal and have found this tricky to achieve in a previous assignment.
 <br>
 <br>
 
@@ -174,4 +176,6 @@ Link to table setup SQL, queries to populate database with basic test data and t
 
 <br><br>
 Note: changes were made to this readme file after the assignment was submitted. No other code was changed.
+<br>
+Hopefully the above documentation is useful for marking and not just a "Cool story Bro".
 
