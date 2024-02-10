@@ -25,6 +25,7 @@ Build a basic social network site with authenticated users.
 - As a user, I am able to follow other users
 - As a user, I am able to like posts I think are good, and see how many likes a post has
 
+<br>
 
 ### Requirements
 
@@ -35,6 +36,7 @@ Build a basic social network site with authenticated users.
 - Show a 404 error if a user profile doesn't exist
 - Use at least 1 Radix UI Primitive or similar
 
+<br>
 
 ### Stretch goals
 
@@ -43,10 +45,13 @@ Build a basic social network site with authenticated users.
 - Enable users to like other users' posts by creating a user_id and liked_post relationship in a junction table
 - A user's biography cannot be blank. If a user logs in but doesn't have a biography set, they should be asked to fill one in
 
+<br>
 
 ### Information on solution
 
 'Fist Bump' is a tinpot social network that uses the term 'Fist Bump' as an alternative term for a 'Like' (which is important for marking, because there is no mention of 'Like' in the UI).
+
+<br>
 
 #### Menu: Timeline
 
@@ -73,7 +78,7 @@ The code will allow a user to add one 'Fist Bump' per post, via the 'Fist Bump' 
 
 However, there is a problem with the code in [this script](https://github.com/mrdb303/wk09-assignment-social-auth/blob/main/src/app/pages/all_posts/page.js) which is an incorrect Postgres SQL query, which is not returning the correct number of 'fist bumps'.
 
-As a side note, this can be achieved in MySQL with the query:
+As a side note, this can be achieved in MySQL with the query:<br>
 
 ``` sql
 SELECT sn_postlikes.postlike_id, sn_posts.post_profile_id, sn_postlikes.postlike_profile_id, sn_posts.post_clerk_id, sn_posts.post_id, sn_posts.post_title, sn_posts.post_content, COUNT(sn_postlikes.postlike_profile_id) 
@@ -93,7 +98,7 @@ The 'profile' button is supposed to be for viewing the users' profile who made t
 
 The 'Edit' button is shown on the post if it belongs to the user, although the editing feature is not present.
 
-
+<br>
 
 
 ### Other notes
