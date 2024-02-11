@@ -47,6 +47,8 @@ Build a basic social network site with authenticated users.
 
 <br>
 
+---
+
 ### Information on solution
 
 'Fist Bump' is a tinpot social network that uses the term 'Fist Bump' as an alternative term for a 'Like' (which is important for marking, because there is no mention of 'Like' in the UI).
@@ -103,6 +105,7 @@ The 'Edit' button is shown on the post if it belongs to the user, although the e
 
 <br>
 
+---
 
 ### Other notes
 
@@ -112,34 +115,35 @@ The component 'UserPosts.js' was added at an earlier stage, but is not currently
 
 ### Requirements achieved
 
-#### Use Clerk.com to set up user signup and login
+**Use Clerk.com to set up user signup and login**<br>
 Clerk was used for user authentication, login and signup
 
 <br>
 
-#### Use the Clerk userId to associate posts with a user
+**Use the Clerk userId to associate posts with a user**<br>
 The Clerk userId value was used to associate posts with the user
 
 <br>
 
-#### Enable each user to create a profile associated with their userId, and a form to input their biography and location data, etc. with a URL similar to ```/user/[userId]```
-This was carried out. The path used is `user/[userid]`
+**Enable each user to create a profile associated with their userId, and a form to input their biography and location data, etc. with a URL similar to** ```/user/[userId]```
+<br>This was carried out. The path used is `user/[userid]`
 
 <br>
 
-#### Enable users to create posts associated with the userId and display those posts on the user's profile page
+**Enable users to create posts associated with the userId and display those posts on the user's profile page** <br>
 This functionality is technically enabled, although a last minute check showed that the buttons that link to a user's profile page currently contain the wrong file paths, so link to the wrong user. Access to the userid pages can still be reached if the values are typed in via the URL. Test data is present for user's numbered 1 to 7.
 
 <br>
 
-#### Show a 404 error if a user profile doesn't exist
+**Show a 404 error if a user profile doesn't exist**
 This is working.
 
 <br>
 <br/>
 
 ### Requirements not achieved
-#### Use at least 1 Radix UI Primitive or similar
+
+**Use at least 1 Radix UI Primitive or similar** <br>
 The intention was to target this at the end, to avoid page clutter when coding. Unfortunately a few challenges stood in the way of progress.
 
 
