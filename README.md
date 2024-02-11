@@ -67,7 +67,7 @@ The 'Timeline' page is a user's timeline which contains:
 Note that the user's user number is displayed in the URL as per requirements.
 
 You can experiment with the user number within the URL to bring up their profile details and message posts.
-To test this, there are seven users in the database for testing purposes. For example, once you are authenticated and have set a profile, try the following URL to show the data for user 3: [profile for user 3](https://wk09-assignment-social-auth.vercel.app/pages/user/3) 
+To test this, there are seven users in the database for testing purposes, numbered 1 to 7. For example, once you are authenticated and have set a profile, try the following URL to show the data for user 3: [profile for user 3](https://wk09-assignment-social-auth.vercel.app/pages/user/3) 
 
 Note that a post form is not shown on pages that belong to other users, so a post cannot be made for another user.
 
@@ -171,7 +171,7 @@ Functionality is included to take into account a user's status. On authenticatio
 If this value is changed to 2, the code will allow the user to see the 'delete' button against a post(see line 52 [here](https://github.com/mrdb303/wk09-assignment-social-auth/blob/main/src/app/pages/all_posts/page.js) ). However, although the button is displayed, the feature hasn't been added to delete the post yet.
 <br>
 
-
+<br>
 
 ### Links
 
