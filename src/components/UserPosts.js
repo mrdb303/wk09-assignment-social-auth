@@ -14,6 +14,7 @@ export default async function UserPosts({params}){
   const { userId } = auth();
   
   
+  
   //const clerkCode = params.profileId;
   //console.log({ userId});
   //console.log({clerkCode});
