@@ -38,7 +38,7 @@ export default async function ListAllPosts(){
   ORDER BY sn_posts.post_id`;
 */
 
-const posts = await sql`SELECT sn_posts.post_id, sn_posts.post_title, sn_posts.post_content, sn_posts.post_clerk_id,  sn_posts.post_date, sn_profiles.username,
+const posts = await sql`SELECT sn_posts.post_id, sn_posts.post_title, sn_posts.post_profile_id, sn_posts.post_content, sn_posts.post_clerk_id,  sn_posts.post_date, sn_profiles.username,
     COALESCE(SUM(sn_postlikes.postlike_val),0) AS bumpcount
     FROM sn_posts
     LEFT JOIN sn_postlikes ON sn_posts.post_id = sn_postlikes.post_id
