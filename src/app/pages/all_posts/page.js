@@ -36,7 +36,7 @@ const posts = await sql`SELECT sn_posts.post_id, sn_posts.post_title, sn_posts.p
     FROM sn_posts
     LEFT JOIN sn_postlikes ON sn_posts.post_id = sn_postlikes.post_id
     JOIN sn_profiles ON sn_posts.post_clerk_id = sn_profiles.clerk_user_id
-    GROUP BY sn_posts.post_id, sn_profiles.username
+    GROUP BY sn_posts.post_id, sn_profiles.username, sn_profiles.profile_id
     ORDER BY bumpcount DESC, sn_posts.post_id`;
 
 
