@@ -30,7 +30,8 @@ export default async function ListAllPosts(){
   // tables, a value of 0 is returned when counted.
 
 
-const posts = await sql`SELECT sn_posts.post_id, sn_posts.post_title, sn_posts.post_profile_id, sn_posts.post_content, sn_posts.post_clerk_id,  sn_posts.post_date, sn_profiles.username,
+const posts = await sql`SELECT sn_posts.post_id, sn_posts.post_title, sn_posts.post_profile_id, 
+    sn_posts.post_content, sn_posts.post_clerk_id, sn_posts.post_date, sn_profiles.username, sn_profiles.profile_id,
     COALESCE(SUM(sn_postlikes.postlike_val),0) AS bumpcount
     FROM sn_posts
     LEFT JOIN sn_postlikes ON sn_posts.post_id = sn_postlikes.post_id
@@ -50,7 +51,7 @@ const posts = await sql`SELECT sn_posts.post_id, sn_posts.post_title, sn_posts.p
               <p>{post.post_content}</p><br/>
               <p>Fist Bumps: {post.bumpcount}</p><br/>
               <Link href={`/pages/fistbump/${post.post_id}`}><button>Fist Bump</button></Link>
-              <Link href={`/pages/user/${post.post_profile_id}`}><button>Profile</button></Link>
+              <Link href={`/pages/user/${post.profile_id}`}><button>Profile</button></Link>
               {/* Only enable delete button if user status = admin*/}
               {userStatus === 2 && 
                 <button>Delete</button>
