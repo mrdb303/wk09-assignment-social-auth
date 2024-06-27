@@ -50,7 +50,7 @@ const posts = await sql`SELECT sn_posts.post_id, sn_posts.post_title, sn_posts.p
               <p>{post.post_content}</p><br/>
               <p>Fist Bumps: {post.bumpcount}</p><br/>
               <Link href={`/pages/fistbump/${post.post_id}`}><button>Fist Bump</button></Link>
-              <Link href={`/pages/user/${post.post_id}`}><button>Profile</button></Link>
+              <Link href={`/pages/user/${post.post_profile_id}`}><button>Profile</button></Link>
               {/* Only enable delete button if user status = admin*/}
               {userStatus === 2 && 
                 <button>Delete</button>
