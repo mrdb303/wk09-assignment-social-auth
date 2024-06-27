@@ -29,14 +29,6 @@ export default async function ListAllPosts(){
   // ensure that even when there are no records joined between two of the 
   // tables, a value of 0 is returned when counted.
 
-  /*
-  const posts = await sql`SELECT sn_posts.post_profile_id, sn_posts.post_clerk_id, sn_posts.post_id, sn_posts.post_title, sn_posts.post_content,sn_posts.post_date 
-  FROM sn_posts
-  LEFT JOIN sn_postlikes ON sn_posts.post_profile_id = sn_postlikes.postlike_profile_id
-  INNER JOIN sn_profiles ON sn_profiles.profile_id = sn_posts.post_profile_id
-  GROUP BY(sn_posts.post_id)
-  ORDER BY sn_posts.post_id`;
-*/
 
 const posts = await sql`SELECT sn_posts.post_id, sn_posts.post_title, sn_posts.post_profile_id, sn_posts.post_content, sn_posts.post_clerk_id,  sn_posts.post_date, sn_profiles.username,
     COALESCE(SUM(sn_postlikes.postlike_val),0) AS bumpcount
@@ -45,18 +37,6 @@ const posts = await sql`SELECT sn_posts.post_id, sn_posts.post_title, sn_posts.p
     JOIN sn_profiles ON sn_posts.post_clerk_id = sn_profiles.clerk_user_id
     GROUP BY sn_posts.post_id, sn_profiles.username
     ORDER BY bumpcount DESC, sn_posts.post_id`;
-
-//console.log(posts);
-
-
- /*   const posts = await sql`SELECT sn_posts.post_id, sn_posts.post_title, sn_posts.post_content,sn_posts.post_clerk_id, sn_profiles.username ,sn_posts.post_date, 
-    sn_posts.post_profile_id, COUNT(sn_postlikes.post_id) AS bumpcount
-    FROM sn_posts
-    INNER JOIN sn_profiles ON sn_posts.post_clerk_id = sn_profiles.clerk_user_id
-    LEFT JOIN sn_postlikes ON sn_posts.post_clerk_id = sn_postlikes.postlike_clerk_id
-    GROUP BY(sn_posts.post_id, sn_profiles.username)
-    ORDER BY sn_posts.post_id DESC`;
-*/
 
 
   return (

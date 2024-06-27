@@ -81,25 +81,6 @@ Not surprisingly, this menu option shows a list of all posts.
 
 The code will allow a user to add one 'Fist Bump' per post, via the 'Fist Bump' button. Handled by the JS page in `app>pages>fistbump>[fistbump]>page.js` : Link [here](https://github.com/mrdb303/wk09-assignment-social-auth/tree/main/src/app/pages/fistbump/%5Bfistbump%5D)
 
-However, there is a problem with the code in [this script](https://github.com/mrdb303/wk09-assignment-social-auth/blob/main/src/app/pages/all_posts/page.js) which is an incorrect Postgres SQL query, which is not returning the correct number of 'fist bumps'.
-
-As a side note, this can be achieved in MySQL with the query:<br>
-
-``` sql
-SELECT sn_postlikes.postlike_id, sn_posts.post_profile_id, sn_postlikes.postlike_profile_id, sn_posts.post_clerk_id, sn_posts.post_id, sn_posts.post_title, sn_posts.post_content, COUNT(sn_postlikes.postlike_profile_id) 
-FROM sn_posts
-LEFT JOIN sn_postlikes ON sn_posts.post_profile_id = sn_postlikes.postlike_profile_id
-INNER JOIN sn_profiles ON sn_profiles.profile_id = sn_posts.post_profile_id
-GROUP BY(sn_posts.post_id)
-ORDER BY sn_posts.post_id
-```
-<br>
-But Postgres doesn't allow this due to not allowing some field names being used outside of aggregate functions, depending on which table they come from.
-I will solve this though.
-
-This would have been easier to solve if the sn_postlikes table was not a junction table and the sn_posts table kept a score of the number of likes, but the use of a junction table was mentioned as the preferred structured way of creating the solution. 
-
-The 'profile' button is supposed to be for viewing the users' profile who made the post, but currently, the correct id numbers are not always returned, so will not always match the correct user, due to the SQL problem described above.
 
 The 'Edit' button is shown on the post if it belongs to the user, although the editing feature is not present.
 
@@ -131,7 +112,7 @@ The Clerk userId value was used to associate posts with the user
 <br>
 
 **Enable users to create posts associated with the userId and display those posts on the user's profile page** <br>
-This functionality is technically enabled, although a last minute check showed that the buttons that link to a user's profile page currently contain the wrong file paths, so link to the wrong user. Access to the userid pages can still be reached if the values are typed in via the URL. Test data is present for user's numbered 1 to 7.
+This functionality is enabled.
 
 <br>
 

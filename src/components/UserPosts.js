@@ -13,11 +13,6 @@ export default async function UserPosts({params}){
 
   const { userId } = auth();
   
-  
-  
-  //const clerkCode = params.profileId;
-  //console.log({ userId});
-  //console.log({clerkCode});
 
   const userLevel = await sql`SELECT sn_profiles.profile_id, sn_profiles.user_level ,sn_profiles.clerk_user_id FROM sn_profiles 
   WHERE sn_profiles.clerk_user_id = ${params.profileId}`;

@@ -30,11 +30,3 @@ export default async function Nav(){
 }
 
 
-/*
-
-<Link href="/pages/user/profileId">Timeline</Link>
-
-<Link href="/posts/[id]" as={`/posts/${post.id}`}>
-  <a>{post.title}</a>
-</Link>
-*/

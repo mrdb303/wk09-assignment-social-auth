@@ -56,8 +56,6 @@ export default async function TimeLine({params}){
     
     
 
-    //console.log("post_profile_id: " + profileId);
-    //console.log("post_clerk_id: " + userId);
 
     // Important - requirements state to use the Clerk id number, not post_profile_id
     const posting = await sql`INSERT INTO sn_posts (post_profile_id, post_clerk_id, post_title, 
@@ -109,18 +107,18 @@ return (
         required
       >
       </textarea><br/>
-       <input name="profilenum"
+      <input name="profilenum"
         value={profileId}
         required
         readOnly
         hidden
-       />
-       <input name="cid"
-         value={clerkIdSearchedFor}
-         readOnly
-         required
-         hidden
-       />
+      />
+      <input name="cid"
+        value={clerkIdSearchedFor}
+        readOnly
+        required
+        hidden
+      />
       <button>Submit</button>
     </form>
     </> }
@@ -153,56 +151,3 @@ return (
 
 
 
-/*
-
-const userLevel = await sql`SELECT sn_profiles.profile_id, sn_profiles.user_level ,sn_profiles.clerk_user_id FROM sn_profiles 
-  WHERE sn_profiles.clerk_user_id = ${params.profileId}`;
-
-  const userStatus = userLevel.rows[0]['user_level'];
-  const profileId = userLevel.rows[0]['profile_id'];
-
-  let idSearchedFor = "";
-
-  if(profileId === undefined) {
-    idSearchedFor = userId;
-  } else {
-    idSearchedFor = userLevel.rows[0]['clerk_user_id'];;
-  }
-
-  console.log("Id searched for: ");
-  console.log(idSearchedFor);
-  //const idSearchedFor = params.clerkIdSearchedFor;
-  //console.log({idSearchedFor});
-
-  const posts = await sql`SELECT sn_posts.post_id, sn_posts.post_title, sn_posts.post_content,sn_posts.post_clerk_id ,sn_posts.post_date, 
-    COUNT(postlike_profile_id) AS bumpcount
-    FROM sn_posts
-    INNER JOIN sn_profiles ON sn_profiles.clerk_user_id = sn_posts.post_clerk_id
-    LEFT JOIN sn_postlikes ON sn_posts.post_clerk_id = sn_postlikes.postlike_clerk_id
-    WHERE sn_profiles.clerk_user_id = ${idSearchedFor}
-    GROUP BY(sn_posts.post_id)
-    ORDER BY sn_posts.post_id DESC`;
-// 
-  //console.log(posts);
-
-  return (
-    <>
-    <h3>Posts Owned: {posts.rowCount}</h3>
-    {posts.rows.map((post) => {
-          return (
-            <div key={post.post_id} className="post">
-              <p>{post.username} Posted on: {convDate(post.post_date)}</p><br/>
-              <p>Title: {post.post_title}</p><br/>
-              <p>{post.post_content}</p><br/>
-              <p>Fist Bumps: {post.bumpcount}</p><br/>
-              <Link href={`/pages/fistbump/${post.post_id}`}><button>Fist Bump</button></Link>
-              
-            </div>
-          );
-        })}
-    
-    </>
-  );
-
-
-*/
