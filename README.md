@@ -133,7 +133,7 @@ The intention was to target this at the end, to avoid page clutter when coding. 
 ### Stretch goals achieved
 
 **Enable users to like other users' posts by creating a user_id and liked_post relationship in a junction table** <br>
-This was achieved in that a user can register a 'fist bump' to a user's post. A bug remains where the calculation for the number of likes via a query isn't working as intended. The data is still written to the junction table though.
+This was achieved in that a user can register a 'fist bump' to a user's post.
 
 **A user's biography cannot be blank - If a user logs in but doesn't have a biography set, they should be asked to fill one in** <br>
 This has been achieved.
