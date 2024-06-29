@@ -64,16 +64,31 @@ export default async function TimeLine({params}){
     redirect("/");
   }
 
-
+/*
     const userPosts = await sql`SELECT sn_profiles.profile_id, sn_profiles.username, sn_profiles.user_level, sn_profiles.clerk_user_id,
     sn_posts.post_date, sn_posts.post_id, sn_posts.post_title, sn_posts.post_content
     FROM sn_profiles 
     INNER JOIN sn_posts ON  sn_posts.post_clerk_id = sn_profiles.clerk_user_id
     WHERE sn_profiles.clerk_user_id =  ${clerkIdSearchedFor}`;
+*/
 
     //console.log(userPosts);
 
-
+    const userPosts = await sql`WITH all_records
+    AS
+    (SELECT sn_profiles.profile_id, sn_profiles.username, sn_profiles.user_level, sn_profiles.clerk_user_id,
+      sn_posts.post_date, sn_posts.post_id, sn_posts.post_title, sn_posts.post_content,
+      COALESCE(SUM(sn_postlikes.postlike_val),0) AS bumpcount
+      FROM sn_profiles
+      JOIN sn_posts ON sn_posts.post_clerk_id = sn_profiles.clerk_user_id
+      LEFT JOIN sn_postlikes ON sn_posts.post_id = sn_postlikes.post_id
+      WHERE sn_profiles.clerk_user_id = 'user_2blxcCkvCOTjDBnqPSj3KWOuKyn'
+      GROUP BY  sn_profiles.profile_id, sn_posts.post_date, sn_posts.post_id
+      ORDER BY sn_posts.post_date DESC, bumpcount DESC, sn_posts.post_id)
+    SELECT
+      profile_id, username, post_date, post_title, post_content, clerk_user_id, user_level, bumpcount
+    FROM all_records
+    WHERE clerk_user_id = ${clerkIdSearchedFor}`;
 
 
 
