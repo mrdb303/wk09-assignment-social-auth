@@ -7,8 +7,9 @@ import { redirect } from "next/navigation";
 import UserPosts from "@/components/UserPosts"
 
 
-export default async function TimeLine({params}){
+export default async function TimeLine(props) {
   "use server";
+  const params = await props.params;
 
   const { userId } = auth();
 
@@ -25,9 +26,9 @@ export default async function TimeLine({params}){
   const checkForUser = await sql`SELECT * FROM sn_profiles WHERE sn_profiles.profile_id = ${params.userid}`;
   if(checkForUser.rowCount === 0) notFound();
 
-  
-  
-  
+
+
+
   const clerkIdSearchedFor = checkForUser.rows[0]['clerk_user_id'];
 
 
@@ -42,7 +43,7 @@ export default async function TimeLine({params}){
   const bio = userData.rows[0]['bio_field'];
 
   const userStatus = userData.rows[0]['user_level'];
-  
+
 
 
   async function addNewPost(formData) {
@@ -86,76 +87,74 @@ export default async function TimeLine({params}){
 
 
 
-return (
-  <>
-  
-  <div>
-  <h3>Profile:</h3>
-    <div className="post">
-    <p>Username: {username}</p><br/>
-    <p>Id Number: {profileId}</p><br/>
-    <p>Location: {location}</p><br/>
-    <p>Bio: {bio}</p><br/>
-    </div>
-    <br/>
-    { userId === clerkIdSearchedFor && 
+  return (
     <>
-    <h3>Create Post</h3>
-    <form action={addNewPost}>
-      <label>Post Title:</label>
-      <input name="posttitle" 
-        placeholder="Post Title"
-        required
-      />
-
-      <label>Content:</label>
-      <textarea name="postcontent" 
-        placeholder="Post Content"
-        rows="3"
-        cols="63"
-        required
-      >
-      </textarea><br/>
-      <input name="profilenum"
-        value={profileId}
-        required
-        readOnly
-        hidden
-      />
-      <input name="cid"
-        value={clerkIdSearchedFor}
-        readOnly
-        required
-        hidden
-      />
-      <button>Submit</button>
-    </form>
-    </> }
-  </div>
-  <h3>Posts:</h3>
-  {userPosts.rows.map((post) => {
-    return (
-      <div key={post.post_id} className="post">
-        <p>{post.username} Posted on: {convDate(post.post_date)}</p><br/>
-        <p>Title: {post.post_title}</p><br/>
-        <p>{post.post_content}</p><br/>
-        <p>Fist Bumps: {post.bumpcount}</p><br/>
-        <Link href={`/pages/fistbump/${post.post_id}`}><button>Fist Bump</button></Link>
-        {/* Only enable delete button if user status = admin*/}
-        {userStatus === 2 && 
-          <button>Delete</button>
-        }
-        {/* Only enable edit button if the post belongs to the logged in user*/}
-        {post.post_profile_id === profileId && 
-          <button>Edit</button>
-        }
+    
+    <div>
+    <h3>Profile:</h3>
+      <div className="post">
+      <p>Username: {username}</p><br/>
+      <p>Id Number: {profileId}</p><br/>
+      <p>Location: {location}</p><br/>
+      <p>Bio: {bio}</p><br/>
       </div>
-    );
-  })}
-  </>
-);
+      <br/>
+      { userId === clerkIdSearchedFor && 
+      <>
+      <h3>Create Post</h3>
+      <form action={addNewPost}>
+        <label>Post Title:</label>
+        <input name="posttitle" 
+          placeholder="Post Title"
+          required
+        />
 
-
+        <label>Content:</label>
+        <textarea name="postcontent" 
+          placeholder="Post Content"
+          rows="3"
+          cols="63"
+          required
+        >
+        </textarea><br/>
+        <input name="profilenum"
+          value={profileId}
+          required
+          readOnly
+          hidden
+        />
+        <input name="cid"
+          value={clerkIdSearchedFor}
+          readOnly
+          required
+          hidden
+        />
+        <button>Submit</button>
+      </form>
+      </> }
+    </div>
+    <h3>Posts:</h3>
+    {userPosts.rows.map((post) => {
+      return (
+        <div key={post.post_id} className="post">
+          <p>{post.username} Posted on: {convDate(post.post_date)}</p><br/>
+          <p>Title: {post.post_title}</p><br/>
+          <p>{post.post_content}</p><br/>
+          <p>Fist Bumps: {post.bumpcount}</p><br/>
+          <Link href={`/pages/fistbump/${post.post_id}`}><button>Fist Bump</button></Link>
+          {/* Only enable delete button if user status = admin*/}
+          {userStatus === 2 && 
+            <button>Delete</button>
+          }
+          {/* Only enable edit button if the post belongs to the logged in user*/}
+          {post.post_profile_id === profileId && 
+            <button>Edit</button>
+          }
+        </div>
+      );
+    })}
+    </>
+  );
 }
 
 

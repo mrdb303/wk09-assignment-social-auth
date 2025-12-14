@@ -7,8 +7,9 @@ import { auth } from "@clerk/nextjs";
 
 
 
-export default async function FistBump({params}){
+export default async function FistBump(props) {
   "use server";
+  const params = await props.params;
 
   const { userId } = auth();
 
@@ -29,7 +30,7 @@ export default async function FistBump({params}){
   if(likeData.rowCount === 0) {
     const writeLike = await sql`INSERT INTO sn_postlikes (postlike_profile_id, postlike_clerk_id, post_id) VALUES (${id.rows[0].profile_id},${userId}, ${Number(params.fistbump)})`;
   }
-  
+
   revalidatePath("/");
   redirect("/");
 
